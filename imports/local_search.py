@@ -35,18 +35,23 @@ def evaluate_solution(solution, distance_matrix, n):
     
     return total_distance
 
-def modify(solution, n):
+def modify(solution, distance_matrix, n):
 
-    p1 = random.randrange(n)
-    p2 = random.randrange(n)
+    best = float('inf')
+    best_sol = []
+    
+    for i in range(n):
+        for j in range(i+1, n):
+            new_solution = solution[:];
+            new_solution[i], new_solution[j] = new_solution[j], new_solution[i]
+            
+            new_val = evaluate_solution(new_solution, distance_matrix, n)
+            
+            if new_val < best:
+                best = new_val
+                best_sol = new_solution
 
-    while p1 == p2:
-        p2 = random.randrange(n)
-   
-    new_solution = solution[:];
-    new_solution[p1], new_solution[p2] = new_solution[p2], new_solution[p1]
-
-    return new_solution, p1, p2
+    return best_sol, best
 
 def local_search(distance_matrix, n, num_iters):
     current_solution = initialize(distance_matrix, n)
@@ -56,8 +61,7 @@ def local_search(distance_matrix, n, num_iters):
     best_value = current_value
 
     for i in range(num_iters):
-        new_solution, p1, p2 = modify(current_solution, n)
-        new_value = evaluate_solution(new_solution, distance_matrix, n)
+        new_solution, new_value = modify(current_solution, distance_matrix, n)
 
         if new_value < current_value:
             current_value = new_value
