@@ -1,5 +1,4 @@
 import random
-import time
 
 def initialize(distance_matrix, n):
     min_idx = 0
@@ -56,8 +55,6 @@ def local_search(distance_matrix, n, num_iters):
     solution = current_solution
     best_value = current_value
 
-    start = time.time()
-
     for i in range(num_iters):
         new_solution, p1, p2 = modify(current_solution, n)
         new_value = evaluate_solution(new_solution, distance_matrix, n)
@@ -70,6 +67,4 @@ def local_search(distance_matrix, n, num_iters):
                 best_value = new_value
                 solution = new_solution
 
-    end = time.time()
-
-    return solution, best_value, end-start
+    return solution, best_value
